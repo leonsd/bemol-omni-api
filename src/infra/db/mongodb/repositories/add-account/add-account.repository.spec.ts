@@ -30,25 +30,25 @@ describe('AddAccount Repository', () => {
     await MongoHelper.disconnect();
   });
 
-  test('', () => {});
+  test('Should add account with success', async () => {
+    const sut = makeSut();
+    const accountData = makeFakeAccountData();
 
-  // test('Should add account with success', async () => {
-  //   const sut = makeSut();
-  //   const accountData = makeFakeAccountData();
+    const account = await sut.add(accountData);
+    console.info({ account });
+    expect(account).toBeTruthy();
+    expect(account?.id).toBeTruthy();
+    expect(account?.username).toBe(accountData.username);
+    expect(account?.gender).toBe(accountData.gender);
+    expect(account?.email).toBe(accountData.email);
+  });
 
-  //   const account = await sut.add(accountData);
-  //   expect(account).toBeTruthy();
-  //   expect(account?.id).toBeTruthy();
-  //   expect(account?.username).toBe(accountData.username);
-  //   expect(account?.gender).toBe(accountData.gender);
-  // });
+  test('Should return null if account already exists', async () => {
+    const sut = makeSut();
+    const accountData = makeFakeAccountData();
+    await AccountEntity.create(accountData);
 
-  // test('Should return null if account already exists', async () => {
-  //   const sut = makeSut();
-  //   const accountData = makeFakeAccountData();
-  //   await AccountEntity.create(accountData);
-
-  //   const account = await sut.add(accountData);
-  //   expect(account).toBe(null);
-  // });
+    const account = await sut.add(accountData);
+    expect(account).toBe(null);
+  });
 });
