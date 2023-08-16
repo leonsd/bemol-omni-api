@@ -18,6 +18,7 @@ const makeAccountRepositoryStub = () => {
         id: 'valid_id',
         username: 'valid_username',
         gender: 'valid_gender',
+        email: 'valid_email',
         password: 'valid_password',
       };
     }
@@ -66,6 +67,7 @@ describe('AddAccount Usecase', () => {
     expect(account?.id).toBeTruthy();
     expect(account?.username).toBe('valid_username');
     expect(account?.gender).toBe('valid_gender');
+    expect(account?.email).toBe('valid_email');
   });
 
   test('Should return null if addAccountRepository.add return null', async () => {

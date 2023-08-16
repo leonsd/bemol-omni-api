@@ -6,6 +6,14 @@ import { AddAccountModel } from '../../../../../domain/usecases/add-account.usec
 
 export class AddAccountMongoRepository implements AddAccountRepository {
   async add(accountData: AddAccountModel): Promise<AccountModel> {
-    return null;
+    const alreadyExists = await AccountEntity.findOne({
+      email: accountData.email,
+    });
+    if (alreadyExists) {
+      return null;
+    }
+
+    const account = await AccountEntity.create(accountData);
+    return MongoHelper.map(account);
   }
 }
