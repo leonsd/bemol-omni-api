@@ -1,4 +1,4 @@
-import { AccountModel } from './add-account.protocol';
+import { AccountModel } from '../add-account.protocol';
 
 export const map = (account: AccountModel) => {
   return {

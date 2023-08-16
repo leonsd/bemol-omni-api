@@ -1,4 +1,4 @@
-import { map } from './add-account.helper';
+import { map } from './helpers/mapper.helper';
 import {
   AccountModel,
   AddAccountRepository,
