@@ -35,7 +35,6 @@ describe('AddAccount Repository', () => {
     const accountData = makeFakeAccountData();
 
     const account = await sut.add(accountData);
-    console.info({ account });
     expect(account).toBeTruthy();
     expect(account?.id).toBeTruthy();
     expect(account?.username).toBe(accountData.username);

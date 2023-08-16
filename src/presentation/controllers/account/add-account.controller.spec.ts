@@ -1,5 +1,5 @@
-import { AddAccountController } from './account.controller';
-import { GenericObject, HttpRequest, Validation } from './account.protocol';
+import { AddAccountController } from './add-account.controller';
+import { GenericObject, HttpRequest, Validation } from './add-account.protocol';
 import { AccountModel } from '../../../domain/models/account.model';
 import { AddAccount } from '../../../domain/usecases/add-account.usecase';
 import { ServerError } from '../../errors';

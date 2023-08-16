@@ -3,9 +3,14 @@ import {
   HttpRequest,
   HttpResponse,
   Validation,
-} from './account.protocol';
+} from './add-account.protocol';
 import { AddAccount } from '../../../domain/usecases/add-account.usecase';
-import { badRequest, created, serverError } from '../../helpers/http/http.helper';
+import {
+  badRequest,
+  conflict,
+  created,
+  serverError,
+} from '../../helpers/http/http.helper';
 import { AccountModel } from '../../../domain/models/account.model';
 
 export class AddAccountController implements Controller {
@@ -24,6 +29,9 @@ export class AddAccountController implements Controller {
       }
 
       const account = await this.addAccount.execute(httpRequest.body);
+      if (!account) {
+        return conflict('Email already registered');
+      }
 
       return created(account);
     } catch (error) {

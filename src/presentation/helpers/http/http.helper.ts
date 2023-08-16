@@ -1,4 +1,4 @@
-import { ServerError } from '../../errors';
+import { ConflictError, ServerError } from '../../errors';
 import { HttpResponse } from '../../protocols/http.protocol';
 
 export const ok = <T>(data: T): HttpResponse<T> => {
@@ -26,6 +26,13 @@ export const notFound = (error: Error): HttpResponse<Error> => {
   return {
     statusCode: 404,
     body: error,
+  };
+};
+
+export const conflict = (message: string): HttpResponse<Error> => {
+  return {
+    statusCode: 409,
+    body: new ConflictError(message),
   };
 };
 
