@@ -1,0 +1,40 @@
+name: CI
+on:
+  # Triggers the workflow on push or pull request events but only for the main branch
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Use Node 18.17
+        uses: actions/setup-node@v3
+        with:
+          node-version: 18.17
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Run tests
+        run: npm run test:ci
+
+      - name: Typescript build
+        run: npm run build
+  securityscan:
+    runs-on: ubuntu-latest
+    name: njsscan check
+    steps:
+    - name: Checkout the code
+      uses: actions/checkout@v2
+
+    - name: nodejsscan scan
+      id: njsscan
+      uses: ajinabraham/njsscan-action@master
+      with:
+        args: '.'

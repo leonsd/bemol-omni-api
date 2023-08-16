@@ -1,0 +1,30 @@
+version: '3'
+services:
+  mongo:
+    image: mongo:6.0.8
+    container_name: mongo_db
+    restart: always
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongo_data:/data/db
+
+  api:
+    container_name: api-container
+    restart: always
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: bemol-omni
+    command: npm run dev
+    ports:
+      - "3000:3000"
+    depends_on:
+      - mongo
+    environment:
+      - MONGO_URL=mongodb://mongo:27017/bemol-omni
+    volumes:
+      - .:/usr/src/app
+
+volumes:
+  mongo_data:

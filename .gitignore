@@ -1,0 +1,14 @@
+# package directories
+node_modules
+jspm_packages
+.env*
+!.env.example
+
+# Serverless directories
+.serverless
+
+# build
+build
+
+# coverage
+coverage
