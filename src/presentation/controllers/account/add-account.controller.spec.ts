@@ -3,6 +3,7 @@ import { GenericObject, HttpRequest, Validation } from './add-account.protocol';
 import { AccountModel } from '../../../domain/models/account.model';
 import { AddAccount } from '../../../domain/usecases/add-account.usecase';
 import { ServerError } from '../../errors';
+import { conflict } from '../../helpers/http/http.helper';
 
 const makeFakeRequest = (): HttpRequest => {
   return {
@@ -74,6 +75,17 @@ describe('AddAccount Controller', () => {
 
     await sut.handle(httpRequest);
     expect(runSpy).toHaveBeenCalledWith(httpRequest.body);
+  });
+
+  test('Should return conflict with addAccount.execute return null', async () => {
+    const { sut, addAccountStub } = makeSut();
+    jest
+      .spyOn(addAccountStub, 'execute')
+      .mockReturnValueOnce(Promise.resolve(null));
+    const httpRequest = makeFakeRequest();
+
+    const httpResponse = await sut.handle(httpRequest);
+    expect(httpResponse).toEqual(conflict('Email already registered'));
   });
 
   test('Should return 500 if addAccount.execute throws', async () => {
