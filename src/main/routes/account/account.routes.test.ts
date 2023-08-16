@@ -68,15 +68,16 @@ describe('Account Router', () => {
     expect(response.status).toBe(400);
   });
 
-  test('Should return an shortened url on success', async () => {
+  test('Should return an account on success', async () => {
     const body = {
       username: 'any_username',
+      gender: 'any_gender',
       email: 'any_email',
       password: 'any_password',
     };
 
     const response = await request(app).post('/accounts').send(body);
-    // expect(response.status).toBe(201);
-    // expect(response.body).toBeTruthy();
+    expect(response.status).toBe(201);
+    expect(response.body).toBeTruthy();
   });
 });
