@@ -12,6 +12,14 @@ const makeFakeRequest = (): HttpRequest => {
       gender: 'any_gender',
       email: 'any_email',
       password: 'any_password',
+      address: {
+        zipCode: 'any_zip_code',
+        street: 'any_street',
+        number: 'any_number',
+        complement: 'any_complement',
+        neighborhood: 'any_neighborhood',
+        state: 'any_state',
+      },
     },
   };
 };

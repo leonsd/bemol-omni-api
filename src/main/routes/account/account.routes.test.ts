@@ -74,6 +74,15 @@ describe('Account Router', () => {
       gender: 'any_gender',
       email: 'any_email',
       password: 'any_password',
+      address: {
+        zipCode: 'valid_zip_code',
+        street: 'valid_street',
+        number: 'valid_number',
+        complement: 'valid_complement',
+        neighborhood: 'valid_neighborhood',
+        city: 'valid_city',
+        state: 'valid_state',
+      },
     };
 
     const response = await request(app).post('/accounts').send(body);

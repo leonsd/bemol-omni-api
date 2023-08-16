@@ -27,4 +27,8 @@ export const MongoHelper = {
 
     return Object.assign({}, restData, { id: String(_id) });
   },
+
+  makeObjectId() {
+    return new Types.ObjectId();
+  },
 };
