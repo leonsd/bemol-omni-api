@@ -1,3 +1,4 @@
+import { map } from './add-account.helper';
 import {
   AccountModel,
   AddAccountRepository,
@@ -9,6 +10,7 @@ export class AddAccountUseCase implements AddAccount {
   constructor(private readonly addAccountRepository: AddAccountRepository) {}
 
   async execute(accountData: AddAccountModel): Promise<AccountModel | null> {
-    return await this.addAccountRepository.add(accountData);
+    const account = await this.addAccountRepository.add(accountData);
+    return account && (map(account) as AccountModel);
   }
 }
