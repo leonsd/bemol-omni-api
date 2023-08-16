@@ -1,8 +1,6 @@
 import { Document, FlattenMaps, Require_id, Types, connect } from 'mongoose';
 
-type MongooseEntity<T> =
-  | (Document<unknown, object, T> & T & { _id: Types.ObjectId })
-  | null;
+type MongooseEntity<T> = (Document<unknown, object, T> & T & { _id: Types.ObjectId }) | null;
 
 export const MongoHelper = {
   client: null as unknown as typeof import('mongoose'),
@@ -18,9 +16,7 @@ export const MongoHelper = {
     this.client = null;
   },
 
-  map<T>(
-    entity: MongooseEntity<T>,
-  ): (Omit<FlattenMaps<Require_id<T>>, '_id'> & { id: string }) | null {
+  map<T>(entity: MongooseEntity<T>): (Omit<FlattenMaps<Require_id<T>>, '_id'> & { id: string }) | null {
     if (!entity) return null;
     const data = entity.toJSON();
     const { _id, ...restData } = data;

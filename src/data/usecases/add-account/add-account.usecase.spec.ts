@@ -1,12 +1,9 @@
 import { AddAccountUseCase } from './add-account.usecase';
 import { AccountModel } from '../../../domain/models/account.model';
-import {
-  AddAccountWithAddressModel,
-  AddAccountRepository,
-  AddAddressRepository,
-} from './add-account.protocol';
+import { AddAccountWithAddressModel, AddAccountRepository, AddAddressRepository } from './add-account.protocol';
 import { AddAddressModel } from '../../../domain/usecases/add-address.usecase';
 import { AddressModel } from '../../../domain/models/address.model';
+import { Hasher } from '../../protocols/criptography/hasher';
 
 const makeFakeAccountWithAddressData = (): AddAccountWithAddressModel => {
   return {
@@ -31,6 +28,16 @@ const makeFakeAddressData = (): AddAddressModel => {
     city: 'valid_city',
     state: 'valid_state',
   };
+};
+
+const makeHasherStub = () => {
+  class HasherStub implements Hasher {
+    async hash(value: string): Promise<string> {
+      return 'hashedValue';
+    }
+  }
+
+  return new HasherStub();
 };
 
 const makeAccountRepositoryStub = () => {
@@ -70,20 +77,20 @@ const makeAddressRepositoryStub = () => {
 
 interface SutTypes {
   sut: AddAccountUseCase;
+  hasherStub: Hasher;
   addAccountRepositoryStub: AddAccountRepository;
   addAddressRepositoryStub: AddAddressRepository;
 }
 
 const makeSut = (): SutTypes => {
+  const hasherStub = makeHasherStub();
   const addAccountRepositoryStub = makeAccountRepositoryStub();
   const addAddressRepositoryStub = makeAddressRepositoryStub();
-  const sut = new AddAccountUseCase(
-    addAccountRepositoryStub,
-    addAddressRepositoryStub,
-  );
+  const sut = new AddAccountUseCase(hasherStub, addAccountRepositoryStub, addAddressRepositoryStub);
 
   return {
     sut,
+    hasherStub,
     addAccountRepositoryStub,
     addAddressRepositoryStub,
   };
@@ -96,7 +103,7 @@ describe('AddAccount Usecase', () => {
     const addSpy = jest.spyOn(addAccountRepositoryStub, 'add');
 
     await sut.execute(accountData);
-    expect(addSpy).toHaveBeenCalledWith(accountData);
+    expect(addSpy).toHaveBeenCalledWith({ ...accountData, password: 'hashedValue' });
   });
 
   test('Should throw if addAccountRepository.add throws', async () => {

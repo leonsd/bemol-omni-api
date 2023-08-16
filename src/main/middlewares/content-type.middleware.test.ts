@@ -6,9 +6,7 @@ describe('CORS Middleware', () => {
     app.get('/test/content_type_json', (req, res) => {
       res.send('');
     });
-    await request(app)
-      .get('/test/content_type_json')
-      .expect('Content-Type', /json/);
+    await request(app).get('/test/content_type_json').expect('Content-Type', /json/);
   });
 
   test('Should return content-type as xml', async () => {
@@ -16,8 +14,6 @@ describe('CORS Middleware', () => {
       res.type('xml');
       res.send('');
     });
-    await request(app)
-      .get('/test/content_type_xml')
-      .expect('Content-Type', /xml/);
+    await request(app).get('/test/content_type_xml').expect('Content-Type', /xml/);
   });
 });

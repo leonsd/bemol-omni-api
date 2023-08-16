@@ -87,9 +87,7 @@ describe('AddAccount Controller', () => {
 
   test('Should return conflict with addAccount.execute return null', async () => {
     const { sut, addAccountStub } = makeSut();
-    jest
-      .spyOn(addAccountStub, 'execute')
-      .mockReturnValueOnce(Promise.resolve(null));
+    jest.spyOn(addAccountStub, 'execute').mockReturnValueOnce(Promise.resolve(null));
     const httpRequest = makeFakeRequest();
 
     const httpResponse = await sut.handle(httpRequest);

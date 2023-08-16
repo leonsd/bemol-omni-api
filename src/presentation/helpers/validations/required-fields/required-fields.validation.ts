@@ -1,8 +1,5 @@
 import { MissingParamError } from '../../../errors';
-import {
-  GenericObject,
-  Validation,
-} from '../../../protocols/validation.protocol';
+import { GenericObject, Validation } from '../../../protocols/validation.protocol';
 
 export class RequiredFieldsValidation implements Validation {
   constructor(private readonly fieldName: string) {}

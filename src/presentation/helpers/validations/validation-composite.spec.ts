@@ -48,12 +48,8 @@ describe('Validation Composite', () => {
   test('Should return the first error if more the one validation fails', async () => {
     const { sut, validationStubs } = makeSut();
     const input = makeFakeObject();
-    jest
-      .spyOn(validationStubs[0], 'validate')
-      .mockReturnValueOnce(new InvalidParamError('any_param'));
-    jest
-      .spyOn(validationStubs[1], 'validate')
-      .mockReturnValueOnce(new MissingParamError('any_param'));
+    jest.spyOn(validationStubs[0], 'validate').mockReturnValueOnce(new InvalidParamError('any_param'));
+    jest.spyOn(validationStubs[1], 'validate').mockReturnValueOnce(new MissingParamError('any_param'));
 
     const error = sut.validate(input);
     expect(error).toEqual(new InvalidParamError('any_param'));
