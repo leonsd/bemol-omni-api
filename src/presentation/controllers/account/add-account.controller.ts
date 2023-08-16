@@ -28,8 +28,6 @@ export class AddAccountController implements Controller {
         return badRequest(error);
       }
 
-      console.log(httpRequest.body);
-
       const account = await this.addAccount.execute(httpRequest.body);
       if (!account) {
         return conflict('Email already registered');
