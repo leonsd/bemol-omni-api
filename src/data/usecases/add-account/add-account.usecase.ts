@@ -5,10 +5,10 @@ import {
   AddAccount,
   AddAccountWithAddressModel,
   AddAddressRepository,
+  AddAddressModel,
+  Hasher,
+  AddAccountModel,
 } from './add-account.protocol';
-import { AddAddressModel } from '../../../domain/usecases/add-address.usecase';
-import { AddressModel } from '../../../domain/models/address.model';
-import { Hasher } from '../../protocols/criptography/hasher';
 
 export class AddAccountUseCase implements AddAccount {
   constructor(
@@ -18,24 +18,28 @@ export class AddAccountUseCase implements AddAccount {
   ) {}
 
   async execute(accountData: AddAccountWithAddressModel): Promise<AccountModel | null> {
-    const passwordHashed = await this.hasher.hash(accountData.password);
-    const account: AccountModel = await this.addAccountRepository.add({ ...accountData, password: passwordHashed });
+    const hashedPassword = await this.hasher.hash(accountData.password);
+    const accountWithHashedPassword = this.prepareAccountData(accountData, hashedPassword);
+    const account = await this.addAccountRepository.add(accountWithHashedPassword);
     if (!account) {
       return null;
     }
 
     const addressData = this.prepareAddressData(account, accountData.address);
-    const address: AddressModel = await this.addAddressRepository.add(addressData);
+    const address = await this.addAddressRepository.add(addressData);
 
     return account && (map({ account, address }) as any);
   }
 
-  private prepareAddressData(account: AccountModel, addressData: Omit<AddAddressModel, 'accountId'>) {
-    const data = {
-      accountId: account.id,
-      ...addressData,
-    };
+  private prepareAccountData(accountData: AddAccountWithAddressModel, hashedPassword: string): AddAccountModel {
+    const { address, ...account } = accountData;
+    const data = { ...account, password: hashedPassword };
 
+    return data;
+  }
+
+  private prepareAddressData(account: AccountModel, addressData: Omit<AddAddressModel, 'accountId'>): AddAddressModel {
+    const data = { accountId: account.id, ...addressData };
     return data;
   }
 }

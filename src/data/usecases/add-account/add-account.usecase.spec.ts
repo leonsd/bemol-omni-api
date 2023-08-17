@@ -100,10 +100,11 @@ describe('AddAccount Usecase', () => {
   test('Should call addAccountRepository.add with correct value', async () => {
     const { sut, addAccountRepositoryStub } = makeSut();
     const accountData = makeFakeAccountWithAddressData();
+    const { address, ...account } = accountData;
     const addSpy = jest.spyOn(addAccountRepositoryStub, 'add');
 
     await sut.execute(accountData);
-    expect(addSpy).toHaveBeenCalledWith({ ...accountData, password: 'hashedValue' });
+    expect(addSpy).toHaveBeenCalledWith({ ...account, password: 'hashedValue' });
   });
 
   test('Should throw if addAccountRepository.add throws', async () => {

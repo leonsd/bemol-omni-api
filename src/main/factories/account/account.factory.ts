@@ -5,10 +5,10 @@ import { AddAccountController } from '../../../presentation/controllers/account/
 import { Controller } from '../../../presentation/protocols/controller.protocol';
 import { makeAddAccountValidator } from './account-validation.factory';
 import { BcryptAdapter } from '../../../infra/criptography/bcrypt/bcrypt-adapter';
+import { env } from '../../config/env.config';
 
 export const makeAddAccountController = (): Controller => {
-  const salt = 12;
-  const bcryptAdapter = new BcryptAdapter(salt);
+  const bcryptAdapter = new BcryptAdapter(env.hashSalt);
   const addAccountMongoRepository = new AddAccountMongoRepository();
   const addAddressMongoRepository = new AddAddressMongoRepository();
   const validator = makeAddAccountValidator();

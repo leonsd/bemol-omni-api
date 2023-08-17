@@ -26,9 +26,7 @@
   "dependencies": {
     "bcrypt": "^5.1.1",
     "express": "^4.18.2",
-    "mongoose": "^7.4.2",
-    "nanoid": "^3.3.6",
-    "validator": "^13.9.0"
+    "mongoose": "^7.4.2"
   },
   "devDependencies": {
     "@commitlint/cli": "^17.6.7",
@@ -39,7 +37,6 @@
     "@types/jest": "^29.5.3",
     "@types/node": "^20.4.5",
     "@types/supertest": "^2.0.12",
-    "@types/validator": "^13.7.17",
     "@typescript-eslint/eslint-plugin": "^6.2.0",
     "@typescript-eslint/parser": "^6.2.0",
     "commitizen": "^4.3.0",
