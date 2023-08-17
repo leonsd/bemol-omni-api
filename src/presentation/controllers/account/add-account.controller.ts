@@ -1,7 +1,6 @@
 import { Controller, HttpRequest, HttpResponse, Validation } from './add-account.protocol';
-import { AddAccount } from '../../../domain/usecases/add-account.usecase';
+import { AccountWithAddressModel, AddAccount } from '../../../domain/usecases/add-account.usecase';
 import { badRequest, conflict, created, serverError } from '../../helpers/http/http.helper';
-import { AccountModel } from '../../../domain/models/account.model';
 
 export class AddAccountController implements Controller {
   constructor(
@@ -9,7 +8,7 @@ export class AddAccountController implements Controller {
     private readonly addAccount: AddAccount,
   ) {}
 
-  async handle(httpRequest: HttpRequest): Promise<HttpResponse<AccountModel | Error>> {
+  async handle(httpRequest: HttpRequest): Promise<HttpResponse<AccountWithAddressModel | Error>> {
     try {
       const error = this.validation.validate(httpRequest.body);
       if (error) {

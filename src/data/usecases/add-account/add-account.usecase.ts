@@ -8,6 +8,7 @@ import {
   AddAddressModel,
   Hasher,
   AddAccountModel,
+  AccountWithAddressModel,
 } from './add-account.protocol';
 
 export class AddAccountUseCase implements AddAccount {
@@ -17,7 +18,7 @@ export class AddAccountUseCase implements AddAccount {
     private readonly addAddressRepository: AddAddressRepository,
   ) {}
 
-  async execute(accountData: AddAccountWithAddressModel): Promise<AccountModel | null> {
+  async execute(accountData: AddAccountWithAddressModel): Promise<AccountWithAddressModel | null> {
     const hashedPassword = await this.hasher.hash(accountData.password);
     const accountWithHashedPassword = this.prepareAccountData(accountData, hashedPassword);
     const account = await this.addAccountRepository.add(accountWithHashedPassword);
@@ -28,7 +29,7 @@ export class AddAccountUseCase implements AddAccount {
     const addressData = this.prepareAddressData(account, accountData.address);
     const address = await this.addAddressRepository.add(addressData);
 
-    return account && (map({ account, address }) as any);
+    return map({ account, address });
   }
 
   private prepareAccountData(accountData: AddAccountWithAddressModel, hashedPassword: string): AddAccountModel {

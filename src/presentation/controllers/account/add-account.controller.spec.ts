@@ -1,7 +1,6 @@
 import { AddAccountController } from './add-account.controller';
 import { GenericObject, HttpRequest, Validation } from './add-account.protocol';
-import { AccountModel } from '../../../domain/models/account.model';
-import { AddAccount } from '../../../domain/usecases/add-account.usecase';
+import { AccountWithAddressModel, AddAccount } from '../../../domain/usecases/add-account.usecase';
 import { ServerError } from '../../errors';
 import { conflict } from '../../helpers/http/http.helper';
 
@@ -18,6 +17,7 @@ const makeFakeRequest = (): HttpRequest => {
         number: 'any_number',
         complement: 'any_complement',
         neighborhood: 'any_neighborhood',
+        city: 'any_city',
         state: 'any_state',
       },
     },
@@ -34,13 +34,22 @@ const makeValidation = (): Validation => {
 
 const makeAddAccountStub = (): AddAccount => {
   class AddAccountStub implements AddAccount {
-    execute(): Promise<AccountModel> {
+    execute(): Promise<AccountWithAddressModel | null> {
       return Promise.resolve({
         id: 'valid_id',
         username: 'valid_username',
         gender: 'valid_gender',
         email: 'valid_email',
         password: 'valid_password',
+        address: {
+          zipCode: 'any_zip_code',
+          street: 'any_street',
+          number: 'any_number',
+          complement: 'any_complement',
+          neighborhood: 'any_neighborhood',
+          city: 'any_city',
+          state: 'any_state',
+        },
       });
     }
   }

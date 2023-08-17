@@ -1,4 +1,5 @@
 import { AccountModel } from '../models/account.model';
+import { AddressModel } from '../models/address.model';
 
 export interface AddAccountModel {
   username: string;
@@ -23,6 +24,10 @@ export interface AddAccountWithAddressModel {
   };
 }
 
+export type AccountWithAddressModel = Omit<AccountModel, 'password'> & {
+  address: Omit<AddressModel, 'id'>;
+};
+
 export interface AddAccount {
-  execute(accountData: AddAccountModel): Promise<AccountModel | null>;
+  execute(accountData: AddAccountModel): Promise<AccountWithAddressModel | null>;
 }
