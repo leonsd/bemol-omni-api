@@ -21,4 +21,14 @@ describe('Axios Adapter', () => {
     await sut.get('any_uri');
     expect(getSpy).toHaveBeenCalledWith('any_uri');
   });
+
+  test('Should throw if axios.get throws', async () => {
+    const { sut } = makeSut();
+    jest.spyOn(axios, 'get').mockImplementationOnce(() => {
+      throw new Error();
+    });
+
+    const promise = sut.get('any_uri');
+    expect(promise).rejects.toThrow();
+  });
 });
