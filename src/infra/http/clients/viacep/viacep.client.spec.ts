@@ -58,14 +58,14 @@ describe('ViaCep Client', () => {
     const zipCode = 'any_zip_code';
     const getSpy = jest.spyOn(axiosAdapterStub, 'get');
 
-    await sut.findAddressByZipCode(zipCode);
+    await sut.findByZipCode(zipCode);
     expect(getSpy).toHaveBeenCalledWith(`viacep.com.br/ws/${zipCode}/json/`);
   });
 
   test('Should return correct address on success', async () => {
     const { sut } = makeSut();
 
-    const response = await sut.findAddressByZipCode('any_zip_code');
+    const response = await sut.findByZipCode('any_zip_code');
     expect(response).toEqual(makeFakeAddressSearched());
   });
 
@@ -75,7 +75,7 @@ describe('ViaCep Client', () => {
       throw new Error();
     });
 
-    const promise = sut.findAddressByZipCode('any_zip_code');
+    const promise = sut.findByZipCode('any_zip_code');
     await expect(promise).rejects.toThrow();
   });
 });

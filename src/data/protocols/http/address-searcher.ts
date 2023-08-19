@@ -8,5 +8,5 @@ export interface Address {
 }
 
 export interface AddressSearcher {
-  findAddressByZipCode(zipCode: string): Promise<Address | null>;
+  findByZipCode(zipCode: string): Promise<Address | null>;
 }
