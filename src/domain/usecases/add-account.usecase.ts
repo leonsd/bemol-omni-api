@@ -25,7 +25,7 @@ export interface AddAccountWithAddressModel {
 }
 
 export type AccountWithAddressModel = Omit<AccountModel, 'password'> & {
-  address: Omit<AddressModel, 'id'>;
+  address: Omit<AddressModel, 'id' | 'accountId'>;
 };
 
 export interface AddAccount {

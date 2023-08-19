@@ -7,7 +7,7 @@ export interface AddressModel {
   number: string;
   complement: string;
   neighborhood: string;
-  state: string;
   city: string;
+  state: string;
   accountId?: AccountModel;
 }
