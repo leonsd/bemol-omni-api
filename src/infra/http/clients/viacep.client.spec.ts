@@ -64,9 +64,18 @@ describe('ViaCep Client', () => {
 
   test('Should return correct address on success', async () => {
     const { sut } = makeSut();
-    const zipCode = 'any_zip_code';
 
-    const response = await sut.findAddressByZipCode(zipCode);
+    const response = await sut.findAddressByZipCode('any_zip_code');
     expect(response).toEqual(makeFakeAddressSearched());
+  });
+
+  test('Should throw if get throws', async () => {
+    const { sut, axiosAdapterStub } = makeSut();
+    jest.spyOn(axiosAdapterStub, 'get').mockImplementationOnce(() => {
+      throw new Error();
+    });
+
+    const promise = sut.findAddressByZipCode('any_zip_code');
+    await expect(promise).rejects.toThrow();
   });
 });
