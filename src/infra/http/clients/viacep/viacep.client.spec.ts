@@ -1,5 +1,5 @@
 import { ViaCepClient } from './viacep.client';
-import { HttpClient } from '../../../data/protocols/http/client';
+import { HttpClient } from '../../../../data/protocols/http/client';
 
 const makeFakeViaCepAddress = () => {
   return {

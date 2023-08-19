@@ -1,5 +1,5 @@
-export * from '../../../data/protocols/http/address-searcher';
-export * from '../../../data/protocols/http/client';
+export * from '../../../../data/protocols/http/address-searcher';
+export * from '../../../../data/protocols/http/client';
 
 export interface ViaCepAddress {
   cep: string;
