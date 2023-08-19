@@ -5,7 +5,12 @@ export class ViaCepClient implements AddressSearcher {
   constructor(private readonly httpClient: HttpClient) {}
 
   async findByZipCode(zipCode: string): Promise<Address | null> {
-    const address = await this.httpClient.get<ViaCepAddress>(`https://viacep.com.br/ws/${zipCode}/json/`);
-    return map(address);
+    const zipCodeSanitized = this.sanitizeZipCode(zipCode);
+    const address = await this.httpClient.get<ViaCepAddress>(`https://viacep.com.br/ws/${zipCodeSanitized}/json/`);
+    return !address.erro && map(address);
+  }
+
+  private sanitizeZipCode(zipCode: string): string {
+    return zipCode.replace(/\D/g, '');
   }
 }

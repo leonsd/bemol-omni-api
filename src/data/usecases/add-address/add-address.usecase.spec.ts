@@ -10,7 +10,7 @@ import {
 const makeFakeAddressData = () => {
   return {
     accountId: 'any_account_id',
-    zipCode: 'any_zipCode',
+    zipCode: '01001000',
     street: 'any_street',
     number: 'any_number',
     complement: 'any_complement',

@@ -53,13 +53,23 @@ const makeSut = (): SutTypes => {
 };
 
 describe('ViaCep Client', () => {
-  test('Should call get with correct params', async () => {
+  test('Should call get with correct zipcode', async () => {
     const { sut, axiosAdapterStub } = makeSut();
-    const zipCode = 'any_zip_code';
+    const zipCode = '01001000';
     const getSpy = jest.spyOn(axiosAdapterStub, 'get');
 
     await sut.findByZipCode(zipCode);
     expect(getSpy).toHaveBeenCalledWith(`https://viacep.com.br/ws/${zipCode}/json/`);
+  });
+
+  test('Should call get with zip code sanitized', async () => {
+    const { sut, axiosAdapterStub } = makeSut();
+    const zipCode = '0100-1000';
+    const zipCodeSanitized = '01001000';
+    const getSpy = jest.spyOn(axiosAdapterStub, 'get');
+
+    await sut.findByZipCode(zipCode);
+    expect(getSpy).toHaveBeenCalledWith(`https://viacep.com.br/ws/${zipCodeSanitized}/json/`);
   });
 
   test('Should return correct address on success', async () => {

@@ -12,4 +12,5 @@ export interface ViaCepAddress {
   gia: string;
   ddd: string;
   siafi: string;
+  erro?: boolean;
 }

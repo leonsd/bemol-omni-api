@@ -16,9 +16,8 @@ export class AddAddressUseCase implements AddAddress {
   async execute(addressData: AddAddressModel): Promise<AddressModel> {
     const addressSearched = await this.addressSearcher.findByZipCode(addressData.zipCode);
     const validatedAddress = this.prepareAddressData(addressData, addressSearched);
-    const address = await this.addAddressRepository.add(validatedAddress);
 
-    return address;
+    return await this.addAddressRepository.add(validatedAddress);
   }
 
   private prepareAddressData(addressData: AddAddressModel, addressSearched: Address): AddAddressModel {
