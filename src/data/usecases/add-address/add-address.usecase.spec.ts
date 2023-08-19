@@ -42,7 +42,7 @@ interface SutTypes {
   addAddressRepositoryStub: AddAddressRepository;
 }
 
-const makeSut = () => {
+const makeSut = (): SutTypes => {
   const addAddressRepositoryStub = makeAddAddressRepository();
   const sut = new AddAddressUseCase(addAddressRepositoryStub);
 
@@ -58,7 +58,15 @@ describe('AddAddress UseCase', () => {
     const addressData = makeFakeAddressData();
     const addSpy = jest.spyOn(addAddressRepositoryStub, 'add');
 
-    sut.execute(addressData);
+    await sut.execute(addressData);
     expect(addSpy).toHaveBeenCalledWith(addressData);
+  });
+
+  test('Should return address on success', async () => {
+    const { sut } = makeSut();
+    const addressData = makeFakeAddressData();
+
+    const address = await sut.execute(addressData);
+    expect(address).toEqual(makeFakeAddress());
   });
 });
