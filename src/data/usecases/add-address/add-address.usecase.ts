@@ -2,6 +2,7 @@ import {
   AddAddress,
   AddAddressModel,
   AddAddressRepository,
+  Address,
   AddressModel,
   AddressSearcher,
 } from './add-address-usecase.protocol';
@@ -13,9 +14,22 @@ export class AddAddressUseCase implements AddAddress {
   ) {}
 
   async execute(addressData: AddAddressModel): Promise<AddressModel> {
-    await this.addressSearcher.findByZipCode(addressData.zipCode);
-    const address = await this.addAddressRepository.add(addressData);
+    const addressSearched = await this.addressSearcher.findByZipCode(addressData.zipCode);
+    const validatedAddress = this.prepareAddressData(addressData, addressSearched);
+    const address = await this.addAddressRepository.add(validatedAddress);
 
     return address;
+  }
+
+  private prepareAddressData(addressData: AddAddressModel, addressSearched: Address): AddAddressModel {
+    const data = {
+      ...addressData,
+      street: addressSearched.street,
+      neighborhood: addressSearched.neighborhood,
+      city: addressSearched.city,
+      state: addressSearched.state,
+    };
+
+    return data;
   }
 }

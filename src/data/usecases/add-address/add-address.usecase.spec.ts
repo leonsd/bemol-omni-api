@@ -10,13 +10,13 @@ import {
 const makeFakeAddressData = () => {
   return {
     accountId: 'any_account_id',
-    zipCode: 'valid_zipCode',
-    street: 'valid_street',
-    number: 'valid_number',
-    complement: 'valid_complement',
-    neighborhood: 'valid_neighborhood',
-    city: 'valid_city',
-    state: 'valid_state',
+    zipCode: 'any_zipCode',
+    street: 'any_street',
+    number: 'any_number',
+    complement: 'any_complement',
+    neighborhood: 'any_neighborhood',
+    city: 'any_city',
+    state: 'any_state',
   };
 };
 
@@ -92,13 +92,20 @@ describe('AddAddress UseCase', () => {
     expect(findByZipCodeSpy).toHaveBeenCalledWith(addressData.zipCode);
   });
 
-  test('Should call Repository.add with correct values', async () => {
+  test('Should call addAddressRepository.add with correct values', async () => {
     const { sut, addAddressRepositoryStub } = makeSut();
     const addressData = makeFakeAddressData();
+    const addressSearched = makeFakeAddressSearched();
     const addSpy = jest.spyOn(addAddressRepositoryStub, 'add');
 
     await sut.execute(addressData);
-    expect(addSpy).toHaveBeenCalledWith(addressData);
+    expect(addSpy).toHaveBeenCalledWith({
+      ...addressData,
+      street: addressSearched.street,
+      neighborhood: addressSearched.neighborhood,
+      city: addressSearched.city,
+      state: addressSearched.state,
+    });
   });
 
   test('Should return address on success', async () => {
