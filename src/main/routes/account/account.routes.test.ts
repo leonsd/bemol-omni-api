@@ -75,7 +75,7 @@ describe('Account Router', () => {
       email: 'any_email',
       password: 'any_password',
       address: {
-        zipCode: 'valid_zip_code',
+        zipCode: '01001000',
         street: 'valid_street',
         number: 'valid_number',
         complement: 'valid_complement',

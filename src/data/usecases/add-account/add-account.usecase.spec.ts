@@ -1,8 +1,8 @@
 import { AddAccountUseCase } from './add-account.usecase';
 import {
   AddAccountWithAddressModel,
+  AddAddress,
   AddAccountRepository,
-  AddAddressRepository,
   AddAddressModel,
   AccountModel,
 } from './add-account.protocol';
@@ -60,9 +60,9 @@ const makeAccountRepositoryStub = () => {
   return new AddAccountRepositoryStub();
 };
 
-const makeAddressRepositoryStub = () => {
-  class AddAddressRepositoryStub implements AddAddressRepository {
-    async add(): Promise<AddressModel> {
+const makeAddAddressStub = () => {
+  class AddAddressStub implements AddAddress {
+    async execute(): Promise<AddressModel> {
       return {
         id: 'valid_id',
         zipCode: 'valid_zip_code',
@@ -76,27 +76,27 @@ const makeAddressRepositoryStub = () => {
     }
   }
 
-  return new AddAddressRepositoryStub();
+  return new AddAddressStub();
 };
 
 interface SutTypes {
   sut: AddAccountUseCase;
   hasherStub: Hasher;
+  addAddressStub: AddAddress;
   addAccountRepositoryStub: AddAccountRepository;
-  addAddressRepositoryStub: AddAddressRepository;
 }
 
 const makeSut = (): SutTypes => {
   const hasherStub = makeHasherStub();
+  const addAddressStub = makeAddAddressStub();
   const addAccountRepositoryStub = makeAccountRepositoryStub();
-  const addAddressRepositoryStub = makeAddressRepositoryStub();
-  const sut = new AddAccountUseCase(hasherStub, addAccountRepositoryStub, addAddressRepositoryStub);
+  const sut = new AddAccountUseCase(hasherStub, addAddressStub, addAccountRepositoryStub);
 
   return {
     sut,
     hasherStub,
+    addAddressStub,
     addAccountRepositoryStub,
-    addAddressRepositoryStub,
   };
 };
 
@@ -122,10 +122,10 @@ describe('AddAccount Usecase', () => {
     expect(promise).rejects.toThrow();
   });
 
-  test('Should call addAddressRepository.add with correct value', async () => {
-    const { sut, addAddressRepositoryStub } = makeSut();
+  test('Should call addAddress.execute with correct value', async () => {
+    const { sut, addAddressStub } = makeSut();
     const accountData = makeFakeAccountWithAddressData();
-    const executeSpy = jest.spyOn(addAddressRepositoryStub, 'add');
+    const executeSpy = jest.spyOn(addAddressStub, 'execute');
 
     await sut.execute(accountData);
     expect(executeSpy).toHaveBeenCalledWith(makeFakeAddressData());

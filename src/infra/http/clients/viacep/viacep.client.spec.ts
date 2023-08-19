@@ -59,7 +59,7 @@ describe('ViaCep Client', () => {
     const getSpy = jest.spyOn(axiosAdapterStub, 'get');
 
     await sut.findByZipCode(zipCode);
-    expect(getSpy).toHaveBeenCalledWith(`viacep.com.br/ws/${zipCode}/json/`);
+    expect(getSpy).toHaveBeenCalledWith(`https://viacep.com.br/ws/${zipCode}/json/`);
   });
 
   test('Should return correct address on success', async () => {

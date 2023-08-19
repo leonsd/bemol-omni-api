@@ -4,18 +4,18 @@ import {
   AddAccountRepository,
   AddAccount,
   AddAccountWithAddressModel,
-  AddAddressRepository,
   AddAddressModel,
   Hasher,
   AddAccountModel,
   AccountWithAddressModel,
+  AddAddress,
 } from './add-account.protocol';
 
 export class AddAccountUseCase implements AddAccount {
   constructor(
     private readonly hasher: Hasher,
+    private readonly addAddress: AddAddress,
     private readonly addAccountRepository: AddAccountRepository,
-    private readonly addAddressRepository: AddAddressRepository,
   ) {}
 
   async execute(accountData: AddAccountWithAddressModel): Promise<AccountWithAddressModel | null> {
@@ -27,7 +27,7 @@ export class AddAccountUseCase implements AddAccount {
     }
 
     const addressData = this.prepareAddressData(account, accountData.address);
-    const address = await this.addAddressRepository.add(addressData);
+    const address = await this.addAddress.execute(addressData);
 
     return map({ account, address });
   }
