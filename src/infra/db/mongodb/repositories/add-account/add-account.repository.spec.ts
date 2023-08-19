@@ -1,7 +1,7 @@
 import { AddAccountMongoRepository } from './add-account.repository';
+import { AddAccountModel } from './add-account-repository.protocol';
 import { AccountEntity } from '../../entities/account.entity';
 import { MongoHelper } from '../../helpers/mongo.helper';
-import { AddAccountModel } from '../../../../../domain/usecases/add-account.usecase';
 
 const makeFakeAccountData = (): AddAccountModel => {
   return {

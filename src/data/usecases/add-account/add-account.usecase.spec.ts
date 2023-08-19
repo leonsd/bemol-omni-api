@@ -1,7 +1,11 @@
 import { AddAccountUseCase } from './add-account.usecase';
-import { AccountModel } from '../../../domain/models/account.model';
-import { AddAccountWithAddressModel, AddAccountRepository, AddAddressRepository } from './add-account.protocol';
-import { AddAddressModel } from '../../../domain/usecases/add-address.usecase';
+import {
+  AddAccountWithAddressModel,
+  AddAccountRepository,
+  AddAddressRepository,
+  AddAddressModel,
+  AccountModel,
+} from './add-account.protocol';
 import { AddressModel } from '../../../domain/models/address.model';
 import { Hasher } from '../../protocols/criptography/hasher';
 

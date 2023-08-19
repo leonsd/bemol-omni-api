@@ -1,5 +1,11 @@
-import { Controller, HttpRequest, HttpResponse, Validation } from './add-account.protocol';
-import { AccountWithAddressModel, AddAccount } from '../../../domain/usecases/add-account.usecase';
+import {
+  Controller,
+  HttpRequest,
+  HttpResponse,
+  Validation,
+  AccountWithAddressModel,
+  AddAccount,
+} from './add-account.protocol';
 import { badRequest, conflict, created, serverError } from '../../helpers/http/http.helper';
 
 export class AddAccountController implements Controller {
