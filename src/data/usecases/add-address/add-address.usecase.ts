@@ -4,8 +4,8 @@ export class AddAddressUseCase implements AddAddress {
   constructor(private readonly addAddressRepository: AddAddressRepository) {}
 
   async execute(addressData: AddAddressModel): Promise<AddressModel> {
-    await this.addAddressRepository.add(addressData);
+    const address = await this.addAddressRepository.add(addressData);
 
-    return null;
+    return address;
   }
 }
